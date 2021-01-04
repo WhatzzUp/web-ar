@@ -1,0 +1,23 @@
+{
+  "name": "web-ar",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "dependencies": {},
+  "devDependencies": {
+    "live-server": "^1.2.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WhatzzUp/web-ar.git"
+  },
+  "author": "Christian Kink",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/WhatzzUp/web-ar/issues"
+  },
+  "homepage": "https://github.com/WhatzzUp/web-ar#readme"
+}
