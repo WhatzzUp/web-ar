@@ -10,7 +10,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "ghpages",
+    "deploy": "ghpages -d examples/model-viewer/augmented-reality",
     "ghpages": "ghpages"
   },
   "repository": {
