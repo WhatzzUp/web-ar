@@ -1,0 +1,45 @@
+{
+  "name": "web-ar",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate",
+    "lint:js": "eslint --ext .js,.vue --ignore-path .gitignore .",
+    "lint": "npm run lint:js",
+    "deploy": "gh-pages -d dist --dotfiles",
+    "clone:openCV": "git clone --branch 4.4.0 --depth 1 https://github.com/opencv/opencv.git",
+    "build:openCV:mac": "docker run --rm -v $(pwd):/src -u $(id -u):$(id -g) emscripten/emsdk:2.0.10 emcmake python3 ./opencv/platforms/js/build_js.py build_js --build_loader",
+    "openCV:mac": "npm run clone:openCV && build:openCV:mac",
+    "build:openCV:windows": "npm run clone:openCV && docker run --rm --workdir /code -v \"$(get-location):/code\" \"trzeci/emscripten:latest\" python ./opencv/platforms/js/build_js.py build_wasm --build_wasm ",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@nuxtjs/axios": "^5.12.2",
+    "@nuxtjs/pwa": "^3.0.2",
+    "core-js": "^3.6.5",
+    "nuxt": "^2.14.5",
+    "nuxt-property-decorator": "^2.9.1",
+    "stats.js": "^0.17.0",
+    "worker-loader": "^3.0.7"
+  },
+  "devDependencies": {
+    "@nuxtjs/eslint-config": "^3.1.0",
+    "@nuxtjs/eslint-module": "^2.0.0",
+    "@nuxtjs/vuetify": "^1.11.2",
+    "ghpages": "0.0.10",
+    "@vue/test-utils": "^1.1.0",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-eslint": "^10.1.0",
+    "babel-jest": "^26.3.0",
+    "eslint": "^7.8.1",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-nuxt": "^1.0.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "jest": "^26.4.2",
+    "prettier": "^2.1.1",
+    "vue-jest": "^3.0.4"
+  }
+}
