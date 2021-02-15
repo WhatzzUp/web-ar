@@ -109,11 +109,17 @@
       var camera = document.createElement("video");
       camera.setAttribute("width", output.width);
       camera.setAttribute("height", output.height);
+      camera.setAttribute('autoplay', '');
+      camera.setAttribute('muted', '');
+      camera.setAttribute('playsinline', '');
 
       // Get a permission from user to use a camera.
-      navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+      navigator.mediaDevices.getUserMedia({
+        video: {
+          facingMode: facingMode
+        }, audio: false
+      })
         .then(function (stream) {
-          camera.setAttribute('autoplay', '');
           camera.srcObject = stream;
           console.log('stream!!! :>> ');
           alert("test2")
@@ -125,7 +131,6 @@
         });
 
       //! [Open a camera stream]
-      console.log('cv :>> ', cv);
       var cap = new cv.VideoCapture(camera);
       var frame = new cv.Mat(camera.height, camera.width, cv.CV_8UC4);
       var frameBGR = new cv.Mat(camera.height, camera.width, cv.CV_8UC3);
@@ -166,14 +171,14 @@
         cap.read(frame);  // Read a frame from camera
         cv.cvtColor(frame, frameBGR, cv.COLOR_RGBA2BGR);
 
-        // var faces = detectFaces(frameBGR);
-        // faces.forEach(function (rect) {
-        //   cv.rectangle(frame, { x: rect.x, y: rect.y }, { x: rect.x + rect.width, y: rect.y + rect.height }, [0, 255, 0, 255]);
+        var faces = detectFaces(frameBGR);
+        faces.forEach(function (rect) {
+          cv.rectangle(frame, { x: rect.x, y: rect.y }, { x: rect.x + rect.width, y: rect.y + rect.height }, [0, 255, 0, 255]);
 
-        //   var face = frameBGR.roi(rect);
-        //   var name = recognize(face);
-        //   cv.putText(frame, name, { x: rect.x, y: rect.y }, cv.FONT_HERSHEY_SIMPLEX, 1.0, [0, 255, 0, 255]);
-        // });
+          var face = frameBGR.roi(rect);
+          var name = recognize(face);
+          cv.putText(frame, name, { x: rect.x, y: rect.y }, cv.FONT_HERSHEY_SIMPLEX, 1.0, [0, 255, 0, 255]);
+        });
 
         cv.imshow(output, frame);
 
