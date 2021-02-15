@@ -122,10 +122,10 @@
         .then(function (stream) {
           camera.srcObject = stream;
           console.log('stream!!! :>> ');
-          alert("test2")
-          // camera.onloadedmetadata = function (e) {
-          //   camera.play();
-          // };
+          alert("test3")
+          camera.onloadedmetadata = function (e) {
+            camera.play();
+          };
         }).catch(e => {
           console.log(e)
         });
