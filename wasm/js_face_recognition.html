@@ -114,6 +114,7 @@
       navigator.mediaDevices.getUserMedia({ video: true, audio: false })
         .then(function (stream) {
           camera.srcObject = stream;
+          console.log('stream :>> ');
           // camera.onloadedmetadata = function (e) {
           //   camera.play();
           // };
