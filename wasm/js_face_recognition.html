@@ -116,7 +116,7 @@
       // Get a permission from user to use a camera.
       navigator.mediaDevices.getUserMedia({
         video: {
-          facingMode: facingMode
+          facingMode: true
         }, audio: false
       })
         .then(function (stream) {
