@@ -111,8 +111,8 @@
       camera.setAttribute('playsinline', '');
       camera.setAttribute('autoplay', '');
       camera.setAttribute('muted', '');
-      camera.style.width = '200px';
-      camera.style.height = '200px';
+      camera.setAttribute("width", output.width);
+      camera.setAttribute("height", output.height);
 
       /* Setting up the constraint */
       var facingMode = "user"; // Can be 'user' or 'environment' to access back or front camera (NEAT!)
@@ -126,6 +126,10 @@
       /* Stream it to video element */
       navigator.mediaDevices.getUserMedia(constraints).then(function success(stream) {
         camera.srcObject = stream;
+        camera.onloadedmetadata = function (e) {
+          camera.play();
+          alert("test5")
+        };
       });
 
       // camera.setAttribute("width", output.width);
