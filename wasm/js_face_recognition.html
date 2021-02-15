@@ -107,24 +107,45 @@
       // Create a camera object.
       var output = document.getElementById('output');
       var camera = document.createElement("video");
-      camera.setAttribute("width", output.width);
-      camera.setAttribute("height", output.height);
+
+      camera.setAttribute('playsinline', '');
       camera.setAttribute('autoplay', '');
       camera.setAttribute('muted', '');
-      camera.setAttribute('playsinline', '');
+      camera.style.width = '200px';
+      camera.style.height = '200px';
 
-      // Get a permission from user to use a camera.
-      navigator.mediaDevices.getUserMedia()
-        .then(function (stream) {
-          camera.srcObject = stream;
-          alert("test4")
-          camera.onloadedmetadata = function (e) {
-            // camera.play();
-            alert("test5")
-          };
-        }).catch(e => {
-          console.log(e)
-        });
+      /* Setting up the constraint */
+      var facingMode = "user"; // Can be 'user' or 'environment' to access back or front camera (NEAT!)
+      var constraints = {
+        audio: false,
+        video: {
+          facingMode: facingMode
+        }
+      };
+
+      /* Stream it to video element */
+      navigator.mediaDevices.getUserMedia(constraints).then(function success(stream) {
+        camera.srcObject = stream;
+      });
+
+      // camera.setAttribute("width", output.width);
+      // camera.setAttribute("height", output.height);
+      // camera.setAttribute('autoplay', '');
+      // camera.setAttribute('muted', '');
+      // camera.setAttribute('playsinline', '');
+
+      // // Get a permission from user to use a camera.
+      // navigator.mediaDevices.getUserMedia()
+      //   .then(function (stream) {
+      //     camera.srcObject = stream;
+      //     alert("test4")
+      //     camera.onloadedmetadata = function (e) {
+      //       // camera.play();
+      //       alert("test5")
+      //     };
+      //   }).catch(e => {
+      //     console.log(e)
+      //   });
 
       //! [Open a camera stream]
       var cap = new cv.VideoCapture(camera);
