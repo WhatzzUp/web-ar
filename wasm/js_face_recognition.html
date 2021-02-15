@@ -117,6 +117,8 @@
           camera.onloadedmetadata = function (e) {
             camera.play();
           };
+        }).catch(e => {
+          console.log(e)
         });
 
       //! [Open a camera stream]
