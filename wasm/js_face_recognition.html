@@ -116,7 +116,7 @@
           camera.setAttribute('autoplay', '');
           camera.srcObject = stream;
           console.log('stream!!! :>> ');
-          alert("test")
+          alert("test2")
           // camera.onloadedmetadata = function (e) {
           //   camera.play();
           // };
@@ -166,14 +166,14 @@
         cap.read(frame);  // Read a frame from camera
         cv.cvtColor(frame, frameBGR, cv.COLOR_RGBA2BGR);
 
-        var faces = detectFaces(frameBGR);
-        faces.forEach(function (rect) {
-          cv.rectangle(frame, { x: rect.x, y: rect.y }, { x: rect.x + rect.width, y: rect.y + rect.height }, [0, 255, 0, 255]);
+        // var faces = detectFaces(frameBGR);
+        // faces.forEach(function (rect) {
+        //   cv.rectangle(frame, { x: rect.x, y: rect.y }, { x: rect.x + rect.width, y: rect.y + rect.height }, [0, 255, 0, 255]);
 
-          var face = frameBGR.roi(rect);
-          var name = recognize(face);
-          cv.putText(frame, name, { x: rect.x, y: rect.y }, cv.FONT_HERSHEY_SIMPLEX, 1.0, [0, 255, 0, 255]);
-        });
+        //   var face = frameBGR.roi(rect);
+        //   var name = recognize(face);
+        //   cv.putText(frame, name, { x: rect.x, y: rect.y }, cv.FONT_HERSHEY_SIMPLEX, 1.0, [0, 255, 0, 255]);
+        // });
 
         cv.imshow(output, frame);
 
