@@ -238,8 +238,42 @@
 
 <body>
 
-    <a-scene stats webxr="requiredFeatures: hit-test,local-floor;">
+    <a-scene webxr="requiredFeatures: hit-test,local-floor;">
+        <a-assets>
+            <a-asset-item id="chair" src="./scene.gltf"></a-asset-item>
+
+        </a-assets>
+        <a-camera position="0 1 5"></a-camera>
+
+
         <!-- Environment for 2D and VR viewing. It's auto-hidden in AR mode. -->
+        <a-entity environment="preset: forest; lighting: none; shadow: none; lightPosition: 0 2.15 0" hide-in-ar-mode>
+        </a-entity>
+
+        <a-entity id="chair_">
+            <a-entity id="demo-loading" animation-mixer="clip: Idle;" gltf-model="#chair"
+                shadow="cast: true; receive: false" scale="0.25 0.25 0.25">
+            </a-entity>
+            <a-plane height="30" width="30" rotation="-90 0 0" shadow="receive: true" ar-shadows="opacity: 0.2"
+                visible="false"></a-plane>
+        </a-entity>
+
+
+        <a-entity light="type: hemisphere; intensity: 1"></a-entity>
+        <a-light type="directional" light="castShadow: true;
+                          shadowMapHeight: 1024;
+                          shadowMapWidth: 1024;
+                          shadowCameraLeft: -7;
+                          shadowCameraRight: 5;
+                          shadowCameraBottom: -5;
+                          shadowCameraTop: 5;" id="light" target="dino" position="-2 4 2">
+        </a-light>
+
+        <a-entity gltf-model="#reticle" scale="0.8 0.8 0.8" ar-hit-test></a-entity>
+    </a-scene>
+
+
+    <!-- <a-scene stats webxr="requiredFeatures: hit-test,local-floor;">
         <a-entity environment="preset: forest; lighting: none; shadow: none; lightPosition: 0 2.15 0" hide-in-ar-mode>
         </a-entity>
 
@@ -249,10 +283,10 @@
             <a-asset-item id="chair" src="./scene.gltf"></a-asset-item>
         </a-assets>
         <a-entity id="chair_">
-            <a-entity id="demo-loading" animation-mixer="clip: Idle;" gltf-model="#chair" scale="0.5 0.5 0.5">
+            <a-entity id="demo-loading" animation-mixer="clip: Idle;" gltf-model="#chair" scale="0.25 0.25 0.25">
             </a-entity>
         </a-entity>
-    </a-scene>
+    </a-scene> -->
 
     <div id="text">
         <label class="form-switch">
