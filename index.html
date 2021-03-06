@@ -234,7 +234,7 @@
                     case 'go':
                         var camPos = document.getElementById('camera').getAttribute('position');
                         document.getElementById('demo-loading').setAttribute("animation-mixer", "clip", "Walking")
-                        document.getElementById('demo-loading').setAttribute("animation", `property: position; dur: 5000; from: ${modelPos.x} ${modelPos.y} ${modelPos.z}; to: ${camPos.x} ${camPos.y} ${globalCamPos.z * 10}; dir: alternate; easing: linear;`)
+                        document.getElementById('demo-loading').setAttribute("animation", `property: position; dur: 5000; from: ${modelPos.x} ${modelPos.y} ${modelPos.z}; to: ${camPos.x} ${camPos.y} ${globalCamPos.z * 5}; dir: alternate; easing: linear;`)
                         break;
                     case 'up':
                         document.getElementById('demo-loading').setAttribute("animation-mixer", "clip", "Jump")
