@@ -238,11 +238,12 @@
                         document.getElementById('demo-loading').setAttribute("animation-mixer", "clip", "Dance")
                         break;
                     case 'five':
+                        timeoutTime = 3000
                         var pos = document.getElementById('camera').getAttribute('position');
                         var rot = document.getElementById('camera').getAttribute('rotation');
                         document.getElementById('demo-loading').setAttribute("rotation", ` 0 ${rot.y + pos.y} 0`)
                         document.getElementById('demo-loading').setAttribute("animation-mixer", "clip", "Walking")
-                        document.getElementById('demo-loading').setAttribute("animation", `property: rotation; dur: 5000; from: ${modelRot.x} ${modelRot.y} ${modelRot.z}; to: 0 ${rot.y + pos.x} 0; dir: alternate; easing: linear;`)
+                        document.getElementById('demo-loading').setAttribute("animation", `property: rotation; dur: ${timeoutTime}; from: ${modelRot.x} ${modelRot.y} ${modelRot.z}; to: 0 ${rot.y + pos.x} 0; dir: alternate; easing: linear;`)
                         break;
                     default:
                         document.getElementById('demo-loading').setAttribute("animation-mixer", "clip", "No")
@@ -268,7 +269,7 @@
 
 <body>
 
-    <a-scene  webxr="requiredFeatures: hit-test,local-floor;">
+    <a-scene webxr="requiredFeatures: hit-test,local-floor;">
         <a-assets>
             <a-asset-item id="chair" src="./scene.gltf"></a-asset-item>
             <a-asset-item id="reticle" src="reticle.gltf" response-type="arraybuffer"></a-asset-item>
