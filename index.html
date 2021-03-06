@@ -204,10 +204,11 @@
                 scores.sort((s1, s2) => s2.score - s1.score);
                 console.log('animationIsRuning :>> ', animationIsRuning);
                 if (animationIsRuning) return
-                animationIsRuning = true
                 // And we highlight the word with the highest score
                 let word = scores[0].word
-                if (scores[0].score < 0.99) return;
+                if (scores[0].score < 0.99) return
+                animationIsRuning = true
+
                 const modelPos = document.getElementById('demo-loading').getAttribute('position');
                 const modelRot = document.getElementById('demo-loading').getAttribute('rotation');
                 switch (word) {
@@ -249,7 +250,7 @@
                 }, 5000)
             },
                 {
-                    probabilityThreshold: 0.50
+                    probabilityThreshold: 0.90
                 });
         }
 
