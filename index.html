@@ -208,7 +208,8 @@
                 let word = scores[0].word
                 if (scores[0].score < 0.99) return
                 animationIsRuning = true
-
+                console.log('word :>> ', word);
+                console.log('scores :>> ', scores);
                 const modelPos = document.getElementById('demo-loading').getAttribute('position');
                 const modelRot = document.getElementById('demo-loading').getAttribute('rotation');
                 switch (word) {
@@ -246,7 +247,7 @@
                 setTimeout(() => {
                     console.log('animationIsRunning :>> ', animationIsRunning);
                     document.getElementById('demo-loading').setAttribute("animation-mixer", "clip", "Idle")
-                    animationIsRuning = false
+                    animationIsRunning = false
                 }, 5000)
             },
                 {
