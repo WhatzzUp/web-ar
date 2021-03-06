@@ -178,19 +178,23 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             const wrapperElement = document.getElementById('sp-cmd-wrapper');
+            if (modelLoaded) {
+                startListening();
+            } else {
+                loadModel();
+            }
 
-
-            document.getElementById("audio-switch").addEventListener('change', (event) => {
-                if (event.target.checked) {
-                    if (modelLoaded) {
-                        startListening();
-                    } else {
-                        loadModel();
-                    }
-                } else {
-                    stopListening();
-                }
-            });
+            // document.getElementById("audio-switch").addEventListener('change', (event) => {
+            //     if (event.target.checked) {
+            //         if (modelLoaded) {
+            //             startListening();
+            //         } else {
+            //             loadModel();
+            //         }
+            //     } else {
+            //         stopListening();
+            //     }
+            // });
         });
 
         async function loadModel() {
@@ -340,11 +344,11 @@
     </a-scene> -->
 
     <div id="text">
-        <label class="form-switch">
+        <!-- <label class="form-switch">
             <input type="checkbox" id="audio-switch">
             Microphone
         </label>
-        <div id="demo-loading" class="hidden">Loading...</div>
+        <div id="demo-loading" class="hidden">Loading...</div> -->
     </div>
 </body>
 
