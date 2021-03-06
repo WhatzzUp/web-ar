@@ -151,7 +151,28 @@
                 }
             }
         });
+        AFRAME.registerComponent('track-camera', {
+            tick: (function () {
+                const position = new THREE.Vector3();
+                const direction = new THREE.Vector3();
+                const rotation = new THREE.Quaternion();
+                const euler = new THREE.Euler();
+                const matrix = new THREE.Matrix4();
 
+                return function () {
+                    this.el.object3D.updateMatrixWorld();
+                    position.setFromMatrixPosition(this.el.object3D.matrixWorld); // Vector3
+                    rotation.setFromRotationMatrix(matrix.extractRotation(this.el.object3D.matrixWorld));
+                    var e = this.el.object3D.matrixWorld.elements;
+                    direction.set(e[8], e[9], e[10]).normalize();
+
+                    console.log("Position: " + position.x + " " + position.y + " " + position.z);
+                    console.log("Rotation: " + rotation.x + " " + rotation.y + " " + rotation.z);
+                    console.log("Direction: " + direction.x + " " + direction.y + " " + direction.z);
+
+                }
+            })()
+        });
     </script>
     <script type="text/javascript">
         let recognizer;
@@ -274,7 +295,7 @@
             <a-asset-item id="chair" src="./scene.gltf"></a-asset-item>
             <a-asset-item id="reticle" src="reticle.gltf" response-type="arraybuffer"></a-asset-item>
         </a-assets>
-        <a-camera id="camera" position="0 1 5"></a-camera>
+        <a-camera id="camera" position="0 1 5" track-camera></a-camera>
 
 
         <!-- Environment for 2D and VR viewing. It's auto-hidden in AR mode. -->
