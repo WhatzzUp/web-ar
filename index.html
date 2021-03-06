@@ -207,7 +207,7 @@
 
                 // And we highlight the word with the highest score
                 let word = scores[0].word
-                if (scores[0].score < 0.999) return;
+                if (scores[0].score < 0.99) return;
                 switch (word) {
                     case 'go':
                         document.getElementById('demo-loading').setAttribute("animation-mixer", "clip", "Walking")
@@ -217,6 +217,7 @@
                         break;
 
                     default:
+                        var pos = document.querySelector('#camera').getAttribute('position');
                         document.getElementById('demo-loading').setAttribute("animation-mixer", "clip", "Death")
 
                         break;
@@ -250,7 +251,8 @@
         <a-entity environment="preset: forest; lighting: none; shadow: none; lightPosition: 0 2.15 0" hide-in-ar-mode>
         </a-entity>
 
-        <a-entity id="dino" scale="0.25 0.25 0.25">
+        <a-entity id="dino" scale="0.25 0.25 0.25" camera="active: true" look-controls wasd-controls position="0 0 5"
+            data-aframe-default-camera>
             <a-entity id="demo-loading" animation-mixer="clip: Idle;" gltf-model="#chair"
                 shadow="cast: true; receive: false">
             </a-entity>
