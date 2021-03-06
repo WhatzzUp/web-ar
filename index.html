@@ -199,9 +199,7 @@
 
                 // Everytime the model evaluates a result it will return the scores array
                 // Based on this data we will build a new array with each word and it's corresponding score
-                console.log('scores :>> ', scores);
                 scores = Array.from(scores).map((s, i) => ({ score: s, word: words[i] }));
-                console.log('scores :>> ', scores);
                 // After that we sort the array by scode descending
                 scores.sort((s1, s2) => s2.score - s1.score);
 
@@ -217,8 +215,12 @@
                         break;
 
                     default:
-                        var pos = document.querySelector('#camera').getAttribute('position');
-                        document.getElementById('demo-loading').setAttribute("animation-mixer", "clip", "Death")
+                        var pos = document.getElementById('camera').getAttribute('position');
+                        var rot = document.getElementById('camera').getAttribute('rotation');
+                        console.log('rot :>> ', rot);
+                        console.log('pos :>> ', pos);
+                        document.getElementById('demo-loading').setAttribute("rotation", ` 0 ${rot.y + pos.y} 0`)
+                        // document.getElementById('demo-loading').setAttribute("animation-mixer", "clip", "Death")
 
                         break;
                 }
@@ -242,11 +244,9 @@
     <a-scene webxr="requiredFeatures: hit-test,local-floor;">
         <a-assets>
             <a-asset-item id="chair" src="./scene.gltf"></a-asset-item>
-            <a-asset-item id="reticle"
-            src="reticle.gltf"
-            response-type="arraybuffer"></a-asset-item>
+            <a-asset-item id="reticle" src="reticle.gltf" response-type="arraybuffer"></a-asset-item>
         </a-assets>
-        <a-camera position="0 1 5"></a-camera>
+        <a-camera id="camera" position="0 1 5"></a-camera>
 
 
         <!-- Environment for 2D and VR viewing. It's auto-hidden in AR mode. -->
