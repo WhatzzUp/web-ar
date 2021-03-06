@@ -1,11 +1,11 @@
 {
-  "name": "opencv",
+  "name": "web-worker",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "gh-pages -d ../main"
+    "deploy": "gh-pages -d ./"
   },
   "author": "",
   "license": "ISC",
