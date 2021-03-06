@@ -151,6 +151,7 @@
                 }
             }
         });
+        globalCamPos;
         AFRAME.registerComponent('track-camera', {
             tick: (function () {
                 const position = new THREE.Vector3();
@@ -165,16 +166,11 @@
                     rotation.setFromRotationMatrix(matrix.extractRotation(this.el.object3D.matrixWorld));
                     var e = this.el.object3D.matrixWorld.elements;
                     direction.set(e[8], e[9], e[10]).normalize();
-
-                    console.log("Position: " + position.x + " " + position.y + " " + position.z);
-                    console.log("Rotation: " + rotation.x + " " + rotation.y + " " + rotation.z);
-                    console.log("Direction: " + direction.x + " " + direction.y + " " + direction.z);
-
+                    globalCamPos = { x: position.x, y: position.y, z: position.z }
                 }
             })()
         });
-    </script>
-    <script type="text/javascript">
+
         let recognizer;
         let words;
         const wordList = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "yes", "no", "up", "down", "left", "right", "stop", "go"];
@@ -238,7 +234,7 @@
                     case 'go':
                         var camPos = document.getElementById('camera').getAttribute('position');
                         document.getElementById('demo-loading').setAttribute("animation-mixer", "clip", "Walking")
-                        document.getElementById('demo-loading').setAttribute("animation", `property: position; dur: 5000; from: ${modelPos.x} ${modelPos.y} ${modelPos.z}; to: ${camPos.x} ${camPos.y} ${camPos.z * 10 + 10}; dir: alternate; easing: linear;`)
+                        document.getElementById('demo-loading').setAttribute("animation", `property: position; dur: 5000; from: ${modelPos.x} ${modelPos.y} ${modelPos.z}; to: ${camPos.x} ${camPos.y} ${globalCamPos.z * 10}; dir: alternate; easing: linear;`)
                         break;
                     case 'up':
                         document.getElementById('demo-loading').setAttribute("animation-mixer", "clip", "Jump")
