@@ -39,7 +39,6 @@ export default class Plain extends Vue {
 
   renderPrediction() {
     this.stats.begin()
-    console.log('this.video.videoWidth :>> ', this.video.videoWidth)
     this.ctx.drawImage(
       this.video,
       0,

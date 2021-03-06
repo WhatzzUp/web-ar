@@ -1,0 +1,30 @@
+<html>
+
+<head>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+</head>
+<script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js');
+    }
+
+    document.querySelector('#show').addEventListener('click', () => {
+        const iconUrl = document.querySelector('select').selectedOptions[0].value;
+        let imgElement = document.createElement('img');
+        imgElement.src = iconUrl;
+        document.querySelector('#container').appendChild(imgElement);
+    });
+</script>
+
+<body>
+    <a-scene stats>
+        <a-assets>
+            <a-asset-item id="chair" src="./assets/80_percent_geometry_leder.glb"></a-asset-item>
+        </a-assets>
+        <a-entity id="chair_" position="-10 -8 -5" scale="0.25 0.25 0.25">
+            <a-entity gltf-model="#chair"></a-entity>
+        </a-entity>
+    </a-scene>
+</body>
+
+</html>

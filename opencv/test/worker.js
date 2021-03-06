@@ -5,14 +5,13 @@ var persons = {};
 onmessage = function (e) {
   switch (e.data.msg) {
     case "load": {
-      console.log("load :>> ");
       // Import Webassembly script
       self.importScripts("./opencv.js");
       self.importScripts("./utils_worker.js");
-      loadModels();
       waitForOpencv(function (success) {
+        console.log("success :>> ", success);
         if (success) {
-          console.log("cv :>> ", cv);
+          loadModels();
           postMessage({ msg: e.data.msg });
         } else throw new Error("Error on loading OpenCV");
       });
@@ -27,6 +26,7 @@ onmessage = function (e) {
 
 function loadModels(callback = () => {}) {
   var utils = new Utils("");
+  console.log("utils :>> ", utils);
   var proto =
     "https://raw.githubusercontent.com/opencv/opencv/master/samples/dnn/face_detector/deploy_lowres.prototxt";
   var weights =
@@ -52,6 +52,8 @@ function waitForOpencv(callbackFn, waitTimeMs = 30000, stepTimeMs = 1000) {
   let timeSpentMs = 0;
   const interval = setInterval(() => {
     const limitReached = timeSpentMs > waitTimeMs;
+    console.log("cv :>> ", cv);
+
     if (cv.Mat || limitReached) {
       clearInterval(interval);
       return callbackFn(!limitReached);
@@ -76,8 +78,8 @@ function detectFaces({ msg, payload }) {
   console.log("payload !!!:>> ", payload);
   var frameBGR = new cv.Mat(payload.height, payload.width, cv.CV_8UC3);
 
-//   const img = cv.matFromImageData(payload);
-//   cv.cvtColor(img, img, cv.COLOR_RGBA2BGR);
+  //   const img = cv.matFromImageData(payload);
+  //   cv.cvtColor(img, img, cv.COLOR_RGBA2BGR);
 
   const img = cv.matFromImageData(payload);
   let result = new cv.Mat();

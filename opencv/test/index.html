@@ -4,7 +4,9 @@
 
 <head>
   <script src="https://unpkg.com/wasm-feature-detect/dist/umd/index.js"></script>
-  <script async src="./opencv.js" onload="cv['onRuntimeInitialized']=()=>{ main() }" type="text/javascript"></script>
+  <!-- <script async src="./opencv.js" onload="cv['onRuntimeInitialized']=()=>{ main() }" type="text/javascript"></script> -->
+  <script async src="opencv_js.js" onload="main();" type="text/javascript"></script>
+
   <script src="../../utils.js" type="text/javascript"></script>
   <script src="//mrdoob.github.io/stats.js/build/stats.min.js"></script>
   <script type='text/javascript'>
@@ -27,11 +29,11 @@
 
     var output
     var ctx
-    var testCTX
     var camera
     var stats
     var _status = {}
     var detectedPersons = []
+
     function _dispatch(event) {
       const { msg } = event
       _status[msg] = ['loading']
@@ -51,23 +53,26 @@
 
     function initWorker() {
       worker.onmessage = (e) => (_status[e.data.msg] = ['done', e.data.payload])
-      worker.onerror = (e) => (_status[e.data.msg] = ['error', e])
+      worker.onerror = (e) => {
+        console.log('e :>> ', e);
+        (_status[e.data.msg] = ['error', e])
+      }
 
-      _dispatch({ msg: 'load' })
+      return _dispatch({ msg: 'load' })
     }
-    function main() {
+    async function main() {
       // Create a camera object.
       var test = document.getElementById('test');
-      textCTX = test.getContext('2d')
+      // textCTX = test.getContext('2d')
       output = document.getElementById('output');
       ctx = output.getContext('2d')
-      
+
       camera = document.getElementById("video");
       camera.setAttribute("width", output.width);
       camera.setAttribute("height", output.height);
 
 
-      initWorker()
+      await initWorker()
       stats = new Stats();
       stats.showPanel(1); // 0: fps, 1: ms, 2: mb, 3+: custom
       document.body.appendChild(stats.dom);
@@ -82,41 +87,40 @@
         });
 
       //! [Open a camera stream]
-      var cap = new cv.VideoCapture(camera);
-      var frame = new cv.Mat(camera.height, camera.width, cv.CV_8UC4);
-      var frameBGR = new cv.Mat(camera.height, camera.width, cv.CV_8UC3);
+      // var cap = cv.VideoCapture(camera);
+      // var frame = cv.Mat(camera.height, camera.width, cv.CV_8UC4);
+      // var frameBGR = cv.Mat(camera.height, camera.width, cv.CV_8UC3);
       //! [Open a camera stream]
 
       //! [Add a person]
-      document.getElementById('addPersonButton').onclick = function () {
-        var rects = detectFaces(frameBGR);
-        if (rects.length > 0) {
-          var face = frameBGR.roi(rects[0]);
+      // document.getElementById('addPersonButton').onclick = function () {
+      //   var rects = detectFaces(frameBGR);
+      //   if (rects.length > 0) {
+      //     var face = frameBGR.roi(rects[0]);
 
-          var name = prompt('Say your name:');
-          var cell = document.getElementById("targetNames").insertCell(0);
-          cell.innerHTML = name;
+      //     var name = prompt('Say your name:');
+      //     var cell = document.getElementById("targetNames").insertCell(0);
+      //     cell.innerHTML = name;
 
-          persons[name] = face2vec(face).clone();
+      //     persons[name] = face2vec(face).clone();
 
-          var canvas = document.createElement("canvas");
-          canvas.setAttribute("width", 96);
-          canvas.setAttribute("height", 96);
-          var cell = document.getElementById("targetImgs").insertCell(0);
-          cell.appendChild(canvas);
+      //     var canvas = document.createElement("canvas");
+      //     canvas.setAttribute("width", 96);
+      //     canvas.setAttribute("height", 96);
+      //     var cell = document.getElementById("targetImgs").insertCell(0);
+      //     cell.appendChild(canvas);
 
-          var faceResized = new cv.Mat(canvas.height, canvas.width, cv.CV_8UC3);
-          cv.resize(face, faceResized, { width: canvas.width, height: canvas.height });
-          cv.cvtColor(faceResized, faceResized, cv.COLOR_BGR2RGB);
-          cv.imshow(canvas, faceResized);
-          faceResized.delete();
-        }
-      };
+      //     var faceResized = new cv.Mat(canvas.height, canvas.width, cv.CV_8UC3);
+      //     cv.resize(face, faceResized, { width: canvas.width, height: canvas.height });
+      //     cv.cvtColor(faceResized, faceResized, cv.COLOR_BGR2RGB);
+      //     cv.imshow(canvas, faceResized);
+      //     faceResized.delete();
+      //   }
+      // };
       //! [Add a person]
 
       //! [Define frames processing]
       var isRunning = false;
-      const FPS = 30;  // Target number of frames processed per second.
 
       async function renderPrediction() {
         stats.begin();
@@ -132,21 +136,21 @@
         });
         // cv.imshow(output, frame);
 
-        textCTX.drawImage(camera, 0, 0, camera.videoWidth, camera.videoHeight)
-        const image = textCTX.getImageData(0, 0, output.width, output.height)
+        // textCTX.drawImage(camera, 0, 0, camera.videoWidth, camera.videoHeight)
+        const image = ctx.getImageData(0, 0, output.width, output.height)
 
         detectedPersons = await _dispatch({ msg: 'imageProcessing', payload: image })
-        // ctx.drawImage(
-        //   camera,
-        //   0,
-        //   0,
-        //   camera.videoWidth,
-        //   camera.videoHeight,
-        //   0,
-        //   0,
-        //   output.width,
-        //   output.height
-        // )
+        ctx.drawImage(
+          camera,
+          0,
+          0,
+          camera.videoWidth,
+          camera.videoHeight,
+          0,
+          0,
+          output.width,
+          output.height
+        )
         stats.end();
         // let delay = 500;
         // setTimeout(renderPrediction, delay);
@@ -179,11 +183,10 @@
 
 </head>
 
-<body >
+<body>
   <button id="startStopButton" style="margin-top:40px" type="button" disabled="true">Start</button>
   <div id="status"></div>
   <canvas id="output" width=640 height=480 style="max-width: 100%"></canvas>
-  <canvas id="test" width=640 height=480 style="max-width: 100%"></canvas>
   <video id="video"></video>
   <table>
     <tr id="targetImgs"></tr>
