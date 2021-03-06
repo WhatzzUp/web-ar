@@ -212,23 +212,27 @@
                 console.log('scores :>> ', scores);
                 const modelPos = document.getElementById('demo-loading').getAttribute('position');
                 const modelRot = document.getElementById('demo-loading').getAttribute('rotation');
+                let timeoutTime = 5000;
                 switch (word) {
                     case 'go':
                         var camPos = document.getElementById('camera').getAttribute('position');
                         document.getElementById('demo-loading').setAttribute("animation-mixer", "clip", "Walking")
-                        document.getElementById('demo-loading').setAttribute("animation", `property: position; dur: 5000; from: ${modelPos.x} ${modelPos.y} ${modelPos.z}; to: ${camPos.x} ${camPos.y} ${camPos.z * 2}; dir: alternate; easing: linear;`)
+                        document.getElementById('demo-loading').setAttribute("animation", `property: position; dur: 5000; from: ${modelPos.x} ${modelPos.y} ${modelPos.z}; to: ${camPos.x} ${camPos.y} ${camPos.z * 10}; dir: alternate; easing: linear;`)
                         break;
                     case 'up':
                         document.getElementById('demo-loading').setAttribute("animation-mixer", "clip", "Jump")
                         break;
                     case 'yes':
                         document.getElementById('demo-loading').setAttribute("animation-mixer", "clip", "Yes")
+                        timeoutTime = 1000
                         break;
                     case 'no':
                         document.getElementById('demo-loading').setAttribute("animation-mixer", "clip", "No")
+                        timeoutTime = 1000
                         break;
                     case 'one':
                         document.getElementById('demo-loading').setAttribute("animation-mixer", "clip", "ThumbsUp")
+                        timeoutTime = 1000
                         break;
                     case 'two':
                         document.getElementById('demo-loading').setAttribute("animation-mixer", "clip", "Dance")
@@ -242,13 +246,14 @@
                         break;
                     default:
                         document.getElementById('demo-loading').setAttribute("animation-mixer", "clip", "No")
+                        timeoutTime = 1000
                         break;
                 }
                 setTimeout(() => {
                     console.log('animationIsRunning :>> ', animationIsRuning);
                     document.getElementById('demo-loading').setAttribute("animation-mixer", "clip", "Idle")
                     animationIsRuning = false
-                }, 5000)
+                }, timeoutTime)
             },
                 {
                     probabilityThreshold: 0.70
