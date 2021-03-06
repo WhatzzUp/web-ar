@@ -202,6 +202,7 @@
                 scores = Array.from(scores).map((s, i) => ({ score: s, word: words[i] }));
                 // After that we sort the array by scode descending
                 scores.sort((s1, s2) => s2.score - s1.score);
+                console.log('animationIsRuning :>> ', animationIsRuning);
                 if (animationIsRuning) return
                 animationIsRuning = true
                 // And we highlight the word with the highest score
@@ -242,12 +243,13 @@
                         break;
                 }
                 setTimeout(() => {
+                    console.log('animationIsRunning :>> ', animationIsRunning);
                     document.getElementById('demo-loading').setAttribute("animation-mixer", "clip", "Idle")
                     animationIsRuning = false
                 }, 5000)
             },
                 {
-                    probabilityThreshold: 0.90
+                    probabilityThreshold: 0.50
                 });
         }
 
