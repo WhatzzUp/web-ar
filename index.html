@@ -193,7 +193,7 @@
             loadingElement.classList.add('hidden');
             startListening();
         }
-
+        animationIsRuning = false;
         function startListening() {
             recognizer.listen(({ scores }) => {
 
@@ -202,34 +202,52 @@
                 scores = Array.from(scores).map((s, i) => ({ score: s, word: words[i] }));
                 // After that we sort the array by scode descending
                 scores.sort((s1, s2) => s2.score - s1.score);
-
+                if (animationIsRuning) return
+                animationIsRuning = true
                 // And we highlight the word with the highest score
                 let word = scores[0].word
                 if (scores[0].score < 0.99) return;
+                const modelPos = document.getElementById('demo-loading').getAttribute('position');
+                const modelRot = document.getElementById('demo-loading').getAttribute('rotation');
                 switch (word) {
                     case 'go':
+                        var camPos = document.getElementById('camera').getAttribute('position');
                         document.getElementById('demo-loading').setAttribute("animation-mixer", "clip", "Walking")
+                        document.getElementById('demo-loading').setAttribute("animation", `property: position; dur: 5000; from: ${modelPos.x} ${modelPos.y} ${modelPos.z}; to: ${camPos.x} ${camPos.y} ${camPos.z}; dir: alternate; easing: linear;`)
                         break;
                     case 'up':
                         document.getElementById('demo-loading').setAttribute("animation-mixer", "clip", "Jump")
                         break;
-
-                    default:
+                    case 'yes':
+                        document.getElementById('demo-loading').setAttribute("animation-mixer", "clip", "Yes")
+                        break;
+                    case 'no':
+                        document.getElementById('demo-loading').setAttribute("animation-mixer", "clip", "No")
+                        break;
+                    case 'one':
+                        document.getElementById('demo-loading').setAttribute("animation-mixer", "clip", "ThumbsUp")
+                        break;
+                    case 'two':
+                        document.getElementById('demo-loading').setAttribute("animation-mixer", "clip", "Dance")
+                        break;
+                    case 'three':
                         var pos = document.getElementById('camera').getAttribute('position');
                         var rot = document.getElementById('camera').getAttribute('rotation');
-                        console.log('rot :>> ', rot);
-                        console.log('pos :>> ', pos);
                         document.getElementById('demo-loading').setAttribute("rotation", ` 0 ${rot.y + pos.y} 0`)
-                        // document.getElementById('demo-loading').setAttribute("animation-mixer", "clip", "Death")
-
+                        document.getElementById('demo-loading').setAttribute("animation-mixer", "clip", "Walking")
+                        document.getElementById('demo-loading').setAttribute("animation", `property: rotation; dur: 5000; from: ${modelRot.x} ${modelRot.y} ${modelRot.z}; to: 0 ${rot.y + pos.x} 0; dir: alternate; easing: linear;`)
+                        break;
+                    default:
+                        document.getElementById('demo-loading').setAttribute("animation-mixer", "clip", "No")
                         break;
                 }
                 setTimeout(() => {
                     document.getElementById('demo-loading').setAttribute("animation-mixer", "clip", "Idle")
+                    animationIsRuning = false
                 }, 5000)
             },
                 {
-                    probabilityThreshold: 0.70
+                    probabilityThreshold: 0.90
                 });
         }
 
@@ -253,12 +271,15 @@
         <a-entity environment="preset: forest; lighting: none; shadow: none; lightPosition: 0 2.15 0" hide-in-ar-mode>
         </a-entity>
 
-        <a-entity id="dino" scale="0.25 0.25 0.25" rotation="0 0 0">
+
+        </a-sphere>
+        <a-entity id="dino" scale="0.25 0.25 0.25" rotation="0 0 0" position="0 0 0">
             <a-entity id="demo-loading" animation-mixer="clip: Idle;" gltf-model="#chair"
                 shadow="cast: true; receive: false">
             </a-entity>
-            <a-plane height="30" width="30" rotation="-90 0 0" shadow="receive: true" ar-shadows="opacity: 0.2"
-                visible="false"></a-plane>
+            <a-plane height=" 30" width="30" rotation="-90 0 0" shadow="receive: true" ar-shadows="opacity: 0.2"
+                visible="false">
+            </a-plane>
         </a-entity>
 
 
